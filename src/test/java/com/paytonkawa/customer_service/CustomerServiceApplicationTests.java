@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -46,10 +47,15 @@ class CustomerServiceApplicationTests {
 
     private CustomerServices customerServices;
 
+
+    @Test
+    void testMainMethod() {
+        CustomerServiceApplication.main(new String[]{}); 
+    }
     @BeforeEach
     void setUp() {
         customerServices = new CustomerServices(customerRepo);
-        customerRepo.deleteAll(); // Clean up the repository before each test
+        customerRepo.deleteAll();
     }
 
     // Service Layer Tests
@@ -81,6 +87,18 @@ class CustomerServiceApplicationTests {
         assertTrue(savedCustomer1.isPresent());
         assertEquals("Jane", savedCustomer1.get().getFirstname());
     }
+    
+    @Test
+    void failedUpdateCustomer() {
+        Customer customer = new Customer("John", "Doe", "john.doe@example.com", new Adress(54682, "Country"));
+        Customer savedCustomer = customerRepo.save(customer);
+
+        Customer updatedCustomer = new Customer("Jane", "Doe", "jane.doe@example.com", new Adress(54682, "Country"));
+        ResponseEntity<Map<String, String>> response = customerServices.updateCustomer(-1, updatedCustomer);
+
+        assertTrue(response.getStatusCode().is4xxClientError());
+        Optional<Customer> savedCustomer1 = customerRepo.findById(savedCustomer.getId());
+    }
 
     @Test
     void testDeleteCustomer() {
@@ -95,6 +113,15 @@ class CustomerServiceApplicationTests {
         Optional<Customer> deletedCustomer = customerRepo.findById(customer.getId());
         assertFalse(deletedCustomer.isPresent());
     }
+    
+    @Test
+    void FailedtestDeleteCustomer() {
+
+
+        ResponseEntity<Map<String, String>> response = customerServices.deleteCustomer(-1);
+
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
 
     @Test
     void testCustomerById() {
@@ -108,6 +135,11 @@ class CustomerServiceApplicationTests {
         assertEquals("John", response.getBody().getFirstname());
     }
 
+    @Test
+    void CustomerByIdNotFound() {
+    	ResponseEntity<Customer> response = customerServices.CustomerById(-1);
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
     // Controller Layer Tests
     @Test
     void testCreateCustomerController() throws Exception {
