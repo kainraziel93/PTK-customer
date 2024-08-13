@@ -24,10 +24,9 @@ public class Adress {
 	}
 
 
-	public Adress(int id, @NotBlank(message = "zip code cannot be blank") int zipCode,
+	public Adress( @NotBlank(message = "zip code cannot be blank") int zipCode,
 			@NotBlank(message = " adress cannot be blank") String adress) {
 		super();
-		this.id = id;
 		this.zipCode = zipCode;
 		this.adress = adress;
 	}

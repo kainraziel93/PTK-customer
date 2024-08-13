@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Customer {
 	@NotBlank(message="email cannot be empty")
 	@Email(message = "not a valid email adress ")
 	private String email;
-	@OneToOne(mappedBy = "customer")
+	@OneToOne(cascade = CascadeType.ALL)
 	private Adress adress;
 	
 	public Customer() {
