@@ -19,6 +19,7 @@ public class CustomerServices {
 	
 	public ResponseEntity<Map<String, String>> createCustomer(Customer customer){
 		try {
+			System.out.println("hada customer=>"+customer);
 			this.customerRepo.save(customer);
 			return ResponseEntity.ok(Map.of("message","customer with email "+customer.getEmail()+" saved succefully"));
 		} catch (Exception e) {
@@ -29,8 +30,8 @@ public class CustomerServices {
 	public ResponseEntity<Map<String, String>> updateCustomer(int customerId,Customer customer){
 			try {
 				Customer customerToUpdate = this.customerRepo.findById(customerId).get();
-				if(customer.getFistname()!=null) {
-					customerToUpdate.setFistname(customer.getFistname());
+				if(customer.getFirstname()!=null) {
+					customerToUpdate.setFirstname(customer.getFirstname());
 				}
 				if(customer.getLastname()!=null) {
 					customerToUpdate.setLastname(customer.getLastname());
@@ -41,7 +42,7 @@ public class CustomerServices {
 				if(customer.getAdress()!=null) {
 					customerToUpdate.setAdress(customer.getAdress());
 				}
-				this.customerRepo.save(customer);
+				this.customerRepo.save(customerToUpdate);
 				return ResponseEntity.ok(Map.of("message","customer with email "+customer.getEmail()+" updated succefully"));
 				
 			} catch (Exception e) {

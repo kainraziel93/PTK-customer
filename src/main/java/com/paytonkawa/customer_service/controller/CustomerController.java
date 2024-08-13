@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,12 +32,12 @@ public class CustomerController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Map<String, String>> createCustomer(@Valid Customer customer){
+	public ResponseEntity<Map<String, String>> createCustomer(@Valid @RequestBody Customer customer){
 		return this.customerServices.createCustomer(customer);
 	}
 	
 	@PutMapping("{id}")
-	public ResponseEntity<Map<String,String>> updateCustomer(@PathVariable int id,Customer customerToUpdate){
+	public ResponseEntity<Map<String,String>> updateCustomer(@PathVariable int id,@RequestBody Customer customerToUpdate){
 		return this.customerServices.updateCustomer(id, customerToUpdate);
 	}
 }

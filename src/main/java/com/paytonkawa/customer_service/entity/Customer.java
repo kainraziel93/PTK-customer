@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,12 +20,13 @@ public class Customer {
 	private int id;
 	@NotBlank(message = "firstname needed for customer")
 	@Size(min=2,message="firstname should be at least 2 characters long")
-	private String fistname;
+	private String firstname;
 	@NotBlank(message = "lastname needed for customer")
 	@Size(min=2,message="lastname should be at least 2 characters long")
 	private String lastname;
 	@NotBlank(message="email cannot be empty")
 	@Email(message = "not a valid email adress ")
+	@Column(unique = true)
 	private String email;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Adress adress;
@@ -35,23 +37,23 @@ public class Customer {
 	}
 
 	public Customer(
-			@NotBlank(message = "firstname needed for customer") @Size(min = 2, message = "firstname should be at least 2 characters long") String fistname,
+			@NotBlank(message = "firstname needed for customer") @Size(min = 2, message = "firstname should be at least 2 characters long") String firstname,
 			@NotBlank(message = "lastname needed for customer") @Size(min = 2, message = "lastname should be at least 2 characters long") String lastname,
 			@NotBlank(message = "email cannot be empty") @Email(message = "not a valid email adress ") String email,
 			Adress adress) {
 		super();
-		this.fistname = fistname;
+		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.adress = adress;
 	}
 
-	public String getFistname() {
-		return fistname;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setFistname(String fistname) {
-		this.fistname = fistname;
+	public void setFirstname(String fistname) {
+		this.firstname = fistname;
 	}
 
 	public String getLastname() {
@@ -84,7 +86,7 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", fistname=" + fistname + ", lastname=" + lastname + ", email=" + email
+		return "Customer [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
 				+ ", adress=" + adress + "]";
 	}
 	
