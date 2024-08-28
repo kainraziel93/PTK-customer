@@ -3,8 +3,12 @@ package com.paytonkawa.customer_service.services;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.paytonkawa.customer_service.dto.CustomerResponse;
+import com.paytonkawa.customer_service.dto.LoginRequest;
 import com.paytonkawa.customer_service.entity.Customer;
 import com.paytonkawa.customer_service.repo.CustomerRepo;
 
@@ -27,6 +31,14 @@ public class CustomerServices {
 		}
 	}
 	
+	public ResponseEntity<Customer> customerByEmail(String email){
+		Customer customer =  this.customerRepo.findCustomerByEmail(email);
+		if(customer !=null) {
+			return ResponseEntity.ok(customer);
+		}
+		return ResponseEntity.badRequest().build();
+		
+	}
 	public ResponseEntity<Map<String, String>> updateCustomer(int customerId,Customer customer){
 			try {
 				Customer customerToUpdate = this.customerRepo.findById(customerId).get();
@@ -72,5 +84,18 @@ public class CustomerServices {
 			System.out.println("error => "+e.getMessage());
 			return  ResponseEntity.badRequest().build();
 		}
+	}
+	
+
+	public ResponseEntity<CustomerResponse> getCustomerByCredentials(LoginRequest loginRequest) {
+		 PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		 System.out.println(loginRequest);
+		 Customer customer = this.customerRepo.findCustomerByEmail(loginRequest.getUsername());
+		 if(customer !=null && passwordEncoder.matches(loginRequest.getPassword(), customer.getPassword())) {
+			 System.out.println("condition is verified");
+			 CustomerResponse customerResponse = new CustomerResponse().mapFromCustomer(customer);
+			 return ResponseEntity.ok(customerResponse);
+		 }
+		return ResponseEntity.badRequest().build();
 	}
 }

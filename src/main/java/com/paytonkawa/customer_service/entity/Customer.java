@@ -30,11 +30,43 @@ public class Customer {
 	private String email;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Adress adress;
+	@NotBlank(message="password cannot be empty")
+	private String password;
+	private String role = "customer";
 	
 	public Customer() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+	public String getRole() {
+		return role;
+	}
+
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+
+	public Customer(
+			@NotBlank(message = "firstname needed for customer") @Size(min = 2, message = "firstname should be at least 2 characters long") String firstname,
+			@NotBlank(message = "lastname needed for customer") @Size(min = 2, message = "lastname should be at least 2 characters long") String lastname,
+			@NotBlank(message = "email cannot be empty") @Email(message = "not a valid email adress ") String email,
+			Adress adress, @NotBlank(message = "password cannot be empty") String password) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.adress = adress;
+		this.password = password;
+	}
+
+
 
 	public Customer(
 			@NotBlank(message = "firstname needed for customer") @Size(min = 2, message = "firstname should be at least 2 characters long") String firstname,
@@ -67,6 +99,20 @@ public class Customer {
 	public String getEmail() {
 		return email;
 	}
+	
+	
+
+	public String getPassword() {
+		return password;
+	}
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
 
 	public void setEmail(String email) {
 		this.email = email;

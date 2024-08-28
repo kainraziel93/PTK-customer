@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.paytonkawa.customer_service.dto.CustomerResponse;
+import com.paytonkawa.customer_service.dto.LoginRequest;
 import com.paytonkawa.customer_service.entity.Customer;
 import com.paytonkawa.customer_service.services.CustomerServices;
 
@@ -50,10 +52,23 @@ public class CustomerController {
 		return this.customerServices.updateCustomer(id, customerToUpdate);
 	}
     
-    @Operation(summary = "update a customer", description = "update a customer the provided id  and details if it exist in the database")
+    @Operation(summary = "delete a customer", description = "delte a customer the provided id  and details if it exist in the database")
 	@DeleteMapping("{id}")
 	public ResponseEntity<Map<String,String>> deleteCustomer(@PathVariable int id){
 		return this.customerServices.deleteCustomer(id);
 	}
+    
+    @Operation(summary = "check a customer by email ", description = "return customer if email exist ")
+    @GetMapping("email/{email}")
+    public ResponseEntity<Customer> customerByEmail(@PathVariable String email){
+    	return this.customerServices.customerByEmail(email);
+    }
+    @Operation(summary = "check a customer with email and password", description = "return customer if credentials are correct else return bad request with ")
+    @PostMapping("customer_by_credentials")
+    public ResponseEntity<CustomerResponse> getCustomerByCredentials(@RequestBody LoginRequest loginRequest){
+    	return this.customerServices.getCustomerByCredentials(loginRequest);
+    }
+
+    
 }
 

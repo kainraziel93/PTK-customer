@@ -6,4 +6,5 @@ import com.paytonkawa.customer_service.entity.Customer;
 
 public interface CustomerRepo extends JpaRepository<Customer, Integer> {
 
+	public Customer findCustomerByEmail(String email);
 }
