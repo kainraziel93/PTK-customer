@@ -22,16 +22,14 @@ public class CustomerServiceApplication {
 	@Bean
 	public CommandLineRunner start(CustomerRepo repo) {
 		return args->{
-			try {
+
 				BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
 				System.out.println("starting saving...");
 				Customer c1 = new  Customer("adam","achahbar","achahbar@gmail.com",new Adress( 32100, "rue du colonel paul paillole"));
 				c1.setPassword(encoder.encode("1234"));
 				repo.save(c1);
 				System.out.println("save completed");
-			} catch (Exception e) {
-				System.out.println("something went wrong");
-			}
+
 		
 		};
 	}
