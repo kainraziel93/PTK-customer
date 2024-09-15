@@ -1,5 +1,6 @@
 package com.paytonkawa.customer_service.services;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,16 @@ public class CustomerServices {
 		this.customerRepo = customerRepo;
 	}
 	
+	public ResponseEntity<List<Customer>> getAllCustomers(){
+		List<Customer> customers = customerRepo.findAll();
+		return ResponseEntity.ok(customers);
+	}
+	
 	public ResponseEntity<Map<String, String>> createCustomer(Customer customer){
 		try {
 			System.out.println("hada customer=>"+customer);
+			PasswordEncoder encoder = new BCryptPasswordEncoder();
+			customer.setPassword(encoder.encode(customer.getPassword()));
 			this.customerRepo.save(customer);
 			return ResponseEntity.ok(Map.of("message","customer with email "+customer.getEmail()+" saved succefully"));
 		} catch (Exception e) {

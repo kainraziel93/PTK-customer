@@ -1,5 +1,6 @@
 package com.paytonkawa.customer_service.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -38,7 +39,13 @@ public class CustomerController {
 	public ResponseEntity<Customer> getCustomerById(@PathVariable int id){
 		return this.customerServices.CustomerById(id);
 	}
-	 
+	
+	@Operation(summary="get all customers", description ="get all customers in the database")
+	@ApiResponse(responseCode = "200", description = "the customer if found")
+    @GetMapping
+	public ResponseEntity<List<Customer>> getAllCustomers() {
+		return this.customerServices.getAllCustomers();
+	}
 	@Operation(summary = "Create a new customer", description = "Create a new customer with the provided details")
 	 @ApiResponse(responseCode = "200", description = "Customer saved successfully")
 	@PostMapping()

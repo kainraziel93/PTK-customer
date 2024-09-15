@@ -31,6 +31,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -63,8 +64,8 @@ class CustomerServiceApplicationTests {
     @Test
     void testCreateCustomer() {
         Customer customer = new Customer("testuser", "testuserlastname", "test.test@gmail.com", new Adress(54682, "Country"));
+        customer.setPassword(new BCryptPasswordEncoder().encode("1234"));
         ResponseEntity<Map<String, String>> response = customerServices.createCustomer(customer);
-
         assertTrue(response.getStatusCode().is2xxSuccessful());
         assertTrue(response.getBody().containsKey("message"));
 
@@ -154,7 +155,7 @@ class CustomerServiceApplicationTests {
     @Test
     void testCreateCustomerController() throws Exception {
         Customer customer = new Customer("testuser", "testuserlastname", "test.test@gmail.com", new Adress(54682, "Country"));
-
+       customer.setPassword(new BCryptPasswordEncoder().encode("1234"));
         mockMvc.perform(post("/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(customer)))
