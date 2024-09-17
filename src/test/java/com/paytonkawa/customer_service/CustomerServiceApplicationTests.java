@@ -46,7 +46,7 @@ class CustomerServiceApplicationTests {
 
     @Autowired
     private CustomerRepo customerRepo;
-
+    int i =0;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -56,6 +56,8 @@ class CustomerServiceApplicationTests {
 
     @BeforeEach
     void setUp() {
+    	i+=i;
+    	System.out.println("starting test number =>"+i);
         customerServices = new CustomerServices(customerRepo);
         customerRepo.deleteAll();
     }
