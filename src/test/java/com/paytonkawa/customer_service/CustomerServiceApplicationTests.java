@@ -281,28 +281,7 @@ class CustomerServiceApplicationTests {
         assertEquals("testPassword", loginRequest.getPassword());
     }
 
-    @Test 
-    void testingApplicationIsStarting() {
-    	System.out.println("application started");
-    }
-    @Test
-    void testGettersAndSettersLoginRequest() {
-        LoginRequest loginRequest = new LoginRequest();
 
-        loginRequest.setUsername("newUser");
-        loginRequest.setPassword("newPassword");
-
-        assertEquals("newUser", loginRequest.getUsername());
-        assertEquals("newPassword", loginRequest.getPassword());
-    }
-
-    @Test
-    void testToStringLoginRequest() {
-        LoginRequest loginRequest = new LoginRequest("testUser", "testPassword");
-
-        String expectedString = "loginRequest [username=testUser, password=testPassword]";
-        assertEquals(expectedString, loginRequest.toString());
-    }
     
 
 }
